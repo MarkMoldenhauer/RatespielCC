@@ -1,9 +1,0 @@
-bin/
-*.class
-*.log
-*.tmp
-*.iml
-.project
-.classpath
-.settings/
-target/
