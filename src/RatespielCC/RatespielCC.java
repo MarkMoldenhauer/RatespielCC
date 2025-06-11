@@ -27,6 +27,7 @@ public class RatespielCC {
 	private static final String SPIELER1_GIBT_ZAHL = "Spieler 1, gib die geheime Zahl ein:";
 	private static final String MODUS_AUSWAHL = "Willkommen beim Ratespiel.\nBitte Modus wählen: 1 = Gegen Computer, 2 = Zwei-Spieler-Modus";
 	private static final String UNGUELTIGE_EINGABE = "Ungültige Eingabe. Bitte eine ganze Zahl eingeben.";
+	private static final String MODUS_UNGUELTIG = "Ungültige Eingabe. Bitte nur 1 oder 2 eingeben.";
 
 	private int meineZahl;
 	private Random zufall = new Random();
@@ -111,14 +112,18 @@ public class RatespielCC {
 	 * Untergrenze sein.
 	 */
 	private void setzeGrenzen() {
-		ausgabe(FRAGE_UNTERGRENZE);
-		untergrenze = zahlEinlesen();
-		ausgabe(FRAGE_OBERGRENZE);
-		obergrenze = zahlEinlesen();
+		while (true) {
+			ausgabe(FRAGE_UNTERGRENZE);
+			untergrenze = zahlEinlesen();
 
-		if (obergrenze <= untergrenze) {
-			ausgabe(FALSCHE_OBERGRENZE);
-			setzeGrenzen();
+			ausgabe(FRAGE_OBERGRENZE);
+			obergrenze = zahlEinlesen();
+
+			if (obergrenze > untergrenze) {
+				break;
+			} else {
+				ausgabe(FALSCHE_OBERGRENZE);
+			}
 		}
 	}
 
@@ -194,9 +199,23 @@ public class RatespielCC {
 	 */
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println(MODUS_AUSWAHL);
-		int modus = scanner.nextInt();
-		new RatespielCC(modus);
-	}
+		String eingabe = "";
 
+		while (true) {
+			System.out.println(MODUS_AUSWAHL);
+			eingabe = scanner.nextLine();
+
+			if (eingabe.equals("1")) {
+				new RatespielCC(1);
+				break;
+			} else if (eingabe.equals("2")) {
+				new RatespielCC(2);
+				break;
+			} else {
+				System.out.println(MODUS_UNGUELTIG);
+			}
+		}
+
+		scanner.close();
+	}
 }
